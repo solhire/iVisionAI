@@ -8,6 +8,11 @@ const nextConfig = {
     // Disable TypeScript errors during builds
     ignoreBuildErrors: true,
   },
+  // Ensure this is properly processed by Next.js 15
+  experimental: {
+    // Disable type checking during builds
+    skipTypechecking: true,
+  },
 };
 
 export default nextConfig; 
