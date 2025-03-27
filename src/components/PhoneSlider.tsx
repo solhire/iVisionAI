@@ -45,7 +45,7 @@ const PhoneSlider = () => {
   }, []);
 
   return (
-    <div className="relative w-full max-w-sm mx-auto h-[600px]">
+    <div className="relative w-full max-w-sm mx-auto h-[600px] flex items-center justify-center">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentImage}
@@ -55,14 +55,19 @@ const PhoneSlider = () => {
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="absolute inset-0 flex items-center justify-center"
         >
-          <Image
-            src={images[currentImage]}
-            alt={`iVision AI Phone View ${currentImage + 1}`}
-            width={300}
-            height={600}
-            className="object-contain h-full drop-shadow-2xl"
-            priority={true}
-          />
+          <div className="relative w-[300px] h-[600px] flex items-center justify-center">
+            <Image
+              src={images[currentImage]}
+              alt={`iVision AI Phone View ${currentImage + 1}`}
+              width={300}
+              height={600}
+              className="object-contain max-h-full max-w-full"
+              priority={true}
+              style={{ 
+                filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.15))'
+              }}
+            />
+          </div>
         </motion.div>
       </AnimatePresence>
 
