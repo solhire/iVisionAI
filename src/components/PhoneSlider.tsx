@@ -74,30 +74,36 @@ const PhoneSlider = () => {
       {/* Navigation arrows */}
       <button 
         onClick={goToPrev}
-        className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 rounded-full p-2 shadow-md hover:bg-white hover:scale-110 transition-all duration-200 z-10"
+        className="absolute left-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:shadow-blue-500/50 hover:scale-110 transition-all duration-300 z-10"
         aria-label="Previous image"
       >
-        <FaChevronLeft className="text-blue-600 dark:text-blue-400" size={20} />
+        <FaChevronLeft size={18} />
       </button>
       
       <button 
         onClick={goToNext}
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 rounded-full p-2 shadow-md hover:bg-white hover:scale-110 transition-all duration-200 z-10"
+        className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:shadow-blue-500/50 hover:scale-110 transition-all duration-300 z-10"
         aria-label="Next image"
       >
-        <FaChevronRight className="text-blue-600 dark:text-blue-400" size={20} />
+        <FaChevronRight size={18} />
       </button>
 
       {/* Indicator dots */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
+      <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-3 z-10">
         {images.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentImage ? 'bg-blue-600 scale-110' : 'bg-gray-300 dark:bg-gray-600'
+            className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
+              index === currentImage 
+                ? 'bg-gradient-to-r from-blue-400 to-indigo-500 scale-125 shadow-md' 
+                : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
             }`}
             aria-label={`View phone image ${index + 1}`}
+            style={{
+              transform: index === currentImage ? 'scale(1.2)' : 'scale(1)',
+              boxShadow: index === currentImage ? '0 2px 8px rgba(59, 130, 246, 0.5)' : 'none'
+            }}
           />
         ))}
       </div>
