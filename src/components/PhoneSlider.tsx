@@ -55,17 +55,17 @@ const PhoneSlider = () => {
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="absolute inset-0 flex items-center justify-center"
         >
-          <div className="relative w-[300px] h-[600px] flex items-center justify-center">
+          <div className="relative flex items-center justify-center" style={{ width: '280px', height: '570px' }}>
             <Image
               src={images[currentImage]}
               alt={`iVision AI Phone View ${currentImage + 1}`}
-              width={300}
-              height={600}
-              className="object-contain max-h-full max-w-full"
-              priority={true}
+              fill
+              sizes="(max-width: 768px) 100vw, 300px"
               style={{ 
+                objectFit: 'contain',
                 filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.15))'
               }}
+              priority={true}
             />
           </div>
         </motion.div>
@@ -74,7 +74,7 @@ const PhoneSlider = () => {
       {/* Navigation arrows */}
       <button 
         onClick={goToPrev}
-        className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 rounded-full p-2 shadow-md hover:bg-white hover:scale-110 transition-all duration-200"
+        className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 rounded-full p-2 shadow-md hover:bg-white hover:scale-110 transition-all duration-200 z-10"
         aria-label="Previous image"
       >
         <FaChevronLeft className="text-blue-600 dark:text-blue-400" size={20} />
@@ -82,14 +82,14 @@ const PhoneSlider = () => {
       
       <button 
         onClick={goToNext}
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 rounded-full p-2 shadow-md hover:bg-white hover:scale-110 transition-all duration-200"
+        className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 rounded-full p-2 shadow-md hover:bg-white hover:scale-110 transition-all duration-200 z-10"
         aria-label="Next image"
       >
         <FaChevronRight className="text-blue-600 dark:text-blue-400" size={20} />
       </button>
 
       {/* Indicator dots */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
         {images.map((_, index) => (
           <button
             key={index}
