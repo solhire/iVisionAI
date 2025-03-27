@@ -4,6 +4,21 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaFileAlt, FaChevronDown, FaChevronUp, FaDownload, FaExternalLinkAlt, FaBookOpen } from 'react-icons/fa';
 
+interface Publication {
+  title: string;
+  authors: string[];
+  journal: string;
+  year: number;
+  doi: string;
+  abstract: string;
+  categories: string[];
+}
+
+interface PublicationSection {
+  title: string;
+  publications: Publication[];
+}
+
 const publicationsData = {
   peerReviewed: [
     {
@@ -444,6 +459,10 @@ const PublicationSection = ({
       </AnimatePresence>
     </div>
   );
+};
+
+const filterPublications = (publications: Publication[], category: string): Publication[] => {
+  return publications.filter(pub => pub.categories.includes(category));
 };
 
 const Publications = () => {

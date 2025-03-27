@@ -7,7 +7,14 @@ import GridBackground from '@/components/GridBackground';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { FaChartBar, FaLightbulb, FaBrain, FaSearchLocation, FaMicrochip, FaLanguage, FaMobile, FaArrowRight, FaHandHoldingHeart, FaHandshake, FaUsers, FaTwitter, FaFacebook, FaLinkedin, FaGithub, FaEnvelope, FaPhone, FaMapMarkerAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChartBar, FaLightbulb, FaBrain, FaSearchLocation, FaMicrochip, FaLanguage, FaMobileAlt, FaArrowRight, FaHandHoldingHeart, FaHandshake, FaUsers, FaTwitter, FaFacebook, FaLinkedin, FaGithub, FaEnvelope, FaPhone, FaMapMarkerAlt, FaChevronDown, FaChevronUp, FaCheck, FaDownload, FaGlobe, FaShieldAlt, FaStar } from 'react-icons/fa';
+import BetaStatusCounter from '@/components/BetaStatusCounter';
+import InteractiveDemo from '@/components/InteractiveDemo';
+import NewsSection from '@/components/NewsSection';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
+import AccessibilityPanel from '@/components/AccessibilityPanel';
+import DarkModeToggle from '@/components/DarkModeToggle';
+import CookieConsent from '@/components/CookieConsent';
 
 // Array of taglines to rotate through
 const taglines = [
@@ -935,7 +942,7 @@ export default function Home() {
                     position: 'relative',
                     boxShadow: '0 8px 20px rgba(57, 73, 171, 0.15)'
                   }}>
-                    <FaMobile size={28} />
+                    <FaMobileAlt size={28} />
                     <div style={{ 
                       position: 'absolute',
                       top: '-5px',

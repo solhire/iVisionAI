@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import {
   BarChart,
   Bar,
@@ -31,7 +30,7 @@ const performanceData = [
   { month: 'Jun', accuracy: 98.5, speed: 150 }
 ];
 
-export function PerformanceMetrics() {
+export default function PerformanceMetrics() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

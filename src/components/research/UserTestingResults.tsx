@@ -5,6 +5,19 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FaQuoteLeft, FaQuoteRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
+interface TestResult {
+  category: string;
+  score: number;
+  feedback: string;
+  participants: number;
+}
+
+interface TestCategory {
+  name: string;
+  description: string;
+  results: TestResult[];
+}
+
 const testResults = [
   {
     id: 1,
@@ -288,6 +301,10 @@ const TestimonialCarousel = () => {
       </div>
     </div>
   );
+};
+
+const calculateAverageScore = (results: TestResult[]): number => {
+  return results.reduce((acc, curr) => acc + curr.score, 0) / results.length;
 };
 
 const UserTestingResults = () => {
