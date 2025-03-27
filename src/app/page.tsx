@@ -15,6 +15,7 @@ import TestimonialCarousel from '@/components/TestimonialCarousel';
 import AccessibilityPanel from '@/components/AccessibilityPanel';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import CookieConsent from '@/components/CookieConsent';
+import PhoneSlider from '@/components/PhoneSlider';
 
 // Array of taglines to rotate through
 const taglines = [
@@ -333,18 +334,7 @@ export default function Home() {
                 filter: 'blur(30px)'
               }}></div>
               
-        <Image
-                src="/images/phone.png"
-                alt="iVision AI App Interface"
-                width={300}
-                height={600}
-                style={{
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.15))',
-                  zIndex: 1
-                }}
-          priority
-        />
+              <PhoneSlider />
             </div>
             
             {/* Description */}
