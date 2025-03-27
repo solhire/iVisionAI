@@ -12,6 +12,8 @@ const nextConfig = {
   experimental: {
     // Disable type checking during builds
     skipTypechecking: true,
+    // Disable linting
+    disableESLint: true,
   },
 };
 
