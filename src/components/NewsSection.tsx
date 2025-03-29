@@ -53,7 +53,7 @@ const newsItems: NewsItem[] = [
     link: "/news/tech-accessibility-magazine"
   }
 ];
-
+x
 const NewsSection: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
