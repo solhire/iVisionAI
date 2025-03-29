@@ -1,365 +1,125 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { FaNewspaper, FaAward, FaRegCalendarAlt, FaArrowRight, FaCalendarAlt, FaChevronRight } from 'react-icons/fa';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { FaNewspaper, FaEnvelope } from 'react-icons/fa';
 
-type NewsItem = {
-  id: number;
+interface NewsItem {
   title: string;
   summary: string;
   date: string;
   category: string;
-  image: string;
-  link: string;
-};
+}
 
 const newsItems: NewsItem[] = [
   {
-    id: 1,
     title: "iVision AI Launches Beta Program",
-    summary: "Our team is excited to announce the launch of our beta program, offering early access to our innovative camera-to-speech technology for blind users.",
-    date: "March 15, 2023",
-    category: "Announcement",
-    image: "/images/news/beta-launch.jpg",
-    link: "/news/beta-launch"
+    summary: "Join our exclusive beta program to shape the future of AI-powered image recognition.",
+    date: "2024-03-15",
+    category: "Announcement"
   },
   {
-    id: 2,
-    title: "New Research Partnership with Vision Institute",
-    summary: "We've partnered with the Vision Institute to advance our object detection algorithms and expand our capabilities to more complex environments.",
-    date: "February 28, 2023",
-    category: "Partnership",
-    image: "/images/news/research-partnership.jpg",
-    link: "/news/research-partnership"
+    title: "New Object Detection Features",
+    summary: "Enhanced accuracy and support for over 1000 object categories.",
+    date: "2024-03-10",
+    category: "Update"
   },
   {
-    id: 3,
-    title: "Accessibility Award for iVision AI",
-    summary: "Our technology has been recognized with the Global Accessibility Innovation Award for its contribution to improving the lives of visually impaired individuals.",
-    date: "January 12, 2023",
-    category: "Award",
-    image: "/images/news/award.jpg",
-    link: "/news/accessibility-award"
-  },
-  {
-    id: 4,
-    title: "Featured in Tech Accessibility Magazine",
-    summary: "iVision AI's approach to spatial awareness for blind users was featured in this month's edition of Tech Accessibility Magazine.",
-    date: "December 5, 2022",
-    category: "Media",
-    image: "/images/news/magazine.jpg",
-    link: "/news/tech-accessibility-magazine"
+    title: "Partnership with Tech Giants",
+    summary: "Strategic partnerships to expand iVision AI's capabilities.",
+    date: "2024-03-05",
+    category: "News"
   }
 ];
-x
+
 const NewsSection: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [error, setError] = useState('');
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Simple email validation
-    if (!email || !email.includes('@')) {
-      setError('Please enter a valid email address');
-      return;
-    }
-
-    // Mock subscription success
+    // TODO: Implement newsletter subscription
     setIsSubscribed(true);
-    setError('');
   };
 
   return (
-    <div className="news-section">
-      <div style={{ 
-        backgroundColor: 'white',
-        borderRadius: '1rem',
-        padding: '2.5rem',
-        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)'
-      }}>
-        <div style={{ 
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem'
-        }}>
-          <h3 style={{ 
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            color: '#1F2937',
-            margin: 0,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}>
-            <FaNewspaper style={{ color: '#3949AB' }} />
-            Latest News & Updates
-          </h3>
-          
-          <Link 
-            href="/news" 
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              color: '#3949AB',
-              fontWeight: '500',
-              fontSize: '0.95rem',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.color = '#303F9F';
-              e.currentTarget.style.textDecoration = 'underline';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.color = '#3949AB';
-              e.currentTarget.style.textDecoration = 'none';
-            }}
-          >
-            View All <FaArrowRight size={12} />
-          </Link>
-        </div>
-        
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '2rem',
-          marginBottom: '4rem'
-        }}>
-          {newsItems.map((item) => (
-            <div key={item.id} style={{
-              backgroundColor: 'white',
-              borderRadius: '1rem',
-              overflow: 'hidden',
-              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-              border: '1px solid rgba(229, 231, 235, 0.5)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'translateY(-10px)';
-              e.currentTarget.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.1)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.05)';
-            }}
+    <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl font-bold mb-4">Latest News & Updates</h2>
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Stay informed about the latest developments in AI technology and iVision AI updates.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {newsItems.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
-              {/* Image placeholder (using background color instead of actual images) */}
-              <div style={{
-                backgroundColor: '#F0F4FF',
-                height: '160px',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  top: '0.75rem',
-                  right: '0.75rem',
-                  backgroundColor: '#3949AB',
-                  color: 'white',
-                  padding: '0.375rem 0.75rem',
-                  borderRadius: '0.375rem',
-                  fontSize: '0.75rem',
-                  fontWeight: 'bold',
-                  zIndex: 1
-                }}>
-                  {item.category}
+              <div className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <FaNewspaper className="text-blue-500" />
+                  <span className="text-sm font-medium text-blue-500">{item.category}</span>
                 </div>
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">{item.summary}</p>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{item.date}</span>
               </div>
-              
-              <div style={{
-                padding: '1.5rem',
-                flex: '1',
-                display: 'flex',
-                flexDirection: 'column'
-              }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '0.75rem',
-                  color: '#6B7280',
-                  fontSize: '0.875rem'
-                }}>
-                  <FaCalendarAlt style={{ marginRight: '0.5rem' }} />
-                  {item.date}
-                </div>
-                
-                <h3 style={{
-                  fontSize: '1.25rem',
-                  fontWeight: 'bold',
-                  marginBottom: '0.75rem',
-                  color: '#1F2937'
-                }}>
-                  {item.title}
-                </h3>
-                
-                <p style={{
-                  color: '#4B5563',
-                  lineHeight: '1.6',
-                  marginBottom: '1.5rem',
-                  flex: '1'
-                }}>
-                  {item.summary}
-                </p>
-                
-                <Link 
-                  href={item.link}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    color: '#3949AB',
-                    fontWeight: '600',
-                    textDecoration: 'none',
-                    gap: '0.25rem',
-                    alignSelf: 'flex-start'
-                  }}
-                >
-                  Read More <FaChevronRight size={12} />
-                </Link>
-              </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-        
-        {/* Newsletter Subscription */}
-        <div style={{
-          backgroundColor: '#F0F4FF',
-          borderRadius: '1rem',
-          padding: '2.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          <h3 style={{
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            marginBottom: '1rem',
-            color: '#1F2937'
-          }}>
-            Stay Updated with Our Newsletter
-          </h3>
-          
-          <p style={{
-            fontSize: '1.1rem',
-            color: '#4B5563',
-            maxWidth: '600px',
-            margin: '0 auto 1.5rem',
-            lineHeight: '1.7'
-          }}>
-            Join our community to receive updates on our development progress, new features, and impact stories.
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8"
+        >
+          <h3 className="text-2xl font-semibold mb-4 text-center">Stay Updated</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">
+            Subscribe to our newsletter for the latest news and updates.
           </p>
-          
-          {isSubscribed ? (
-            <div style={{
-              backgroundColor: 'rgba(57, 73, 171, 0.1)',
-              borderRadius: '0.5rem',
-              padding: '1.25rem',
-              maxWidth: '500px',
-              margin: '0 auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.75rem'
-            }}>
-              <div style={{
-                backgroundColor: '#3949AB',
-                color: 'white',
-                borderRadius: '50%',
-                width: '1.5rem',
-                height: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.75rem',
-                fontWeight: 'bold'
-              }}>
-                ✓
+          {!isSubscribed ? (
+            <form onSubmit={handleSubscribe} className="space-y-4">
+              <div className="relative">
+                <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700"
+                  required
+                />
               </div>
-              <span style={{ fontWeight: '500', color: '#3949AB' }}>
-                Thank you for subscribing! We'll keep you updated.
-              </span>
-            </div>
-          ) : (
-            <form 
-              onSubmit={handleSubscribe}
-              style={{
-                display: 'flex',
-                gap: '0.75rem',
-                maxWidth: '500px',
-                width: '100%',
-                margin: '0 auto',
-                flexWrap: 'wrap'
-              }}
-            >
-              <input
-                type="email"
-                placeholder="Your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                aria-label="Email address for newsletter"
-                style={{
-                  padding: '0.75rem 1.25rem',
-                  borderRadius: '0.5rem',
-                  flex: '1',
-                  minWidth: '200px',
-                  border: error ? '1px solid #DC2626' : '1px solid rgba(229, 231, 235, 0.8)',
-                  outline: 'none',
-                  fontSize: '1rem'
-                }}
-              />
               <button
                 type="submit"
-                style={{
-                  backgroundColor: '#3949AB',
-                  color: 'white',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '0.5rem',
-                  fontWeight: 'bold',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300"
               >
-                Subscribe <FaArrowRight size={14} />
+                Subscribe
               </button>
-              {error && (
-                <p style={{
-                  color: '#DC2626',
-                  fontSize: '0.875rem',
-                  margin: '0.5rem 0 0 0',
-                  width: '100%'
-                }}>
-                  {error}
-                </p>
-              )}
             </form>
+          ) : (
+            <div className="text-center text-green-500">
+              <p>Thank you for subscribing!</p>
+            </div>
           )}
-          
-          <p style={{
-            fontSize: '0.875rem',
-            color: '#6B7280',
-            maxWidth: '500px',
-            margin: '1rem auto 0',
-            lineHeight: '1.5'
-          }}>
-            We respect your privacy. You can unsubscribe at any time.
-          </p>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 
