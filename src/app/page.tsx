@@ -16,16 +16,7 @@ import AccessibilityPanel from '@/components/AccessibilityPanel';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import CookieConsent from '@/components/CookieConsent';
 import PhoneSlider from '@/components/PhoneSlider';
-import { Metadata } from 'next';
-import HeroSection from '@/components/HeroSection';
-import FeaturesSection from '@/components/FeaturesSection';
-import UseCasesSection from '@/components/UseCasesSection';
 import { motion, AnimatePresence } from 'framer-motion';
-
-export const metadata: Metadata = {
-  title: 'iVision AI - Advanced Vision Technology',
-  description: 'Enhancing everyday life with AI vision technology. Join our beta program today.',
-};
 
 // Array of taglines to rotate through
 const taglines = [
@@ -530,7 +521,55 @@ export default function Home() {
           <div className="relative">
             <div className="absolute -inset-2 bg-blue-50 dark:bg-blue-900/20 rounded-2xl blur-sm"></div>
             <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 p-8">
-              <UseCasesSection />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[
+                  {
+                    icon: <FaGlobe className="text-blue-500" size={24} />,
+                    title: "Navigation Assistance",
+                    description: "Helping visually impaired users navigate indoor and outdoor environments with audio descriptions of surroundings and obstacles."
+                  },
+                  {
+                    icon: <FaShieldAlt className="text-blue-500" size={24} />,
+                    title: "Safety & Hazard Detection",
+                    description: "Identifying potential dangers like traffic, steps, or obstacles and providing immediate audio warnings."
+                  },
+                  {
+                    icon: <FaStar className="text-blue-500" size={24} />,
+                    title: "Object Recognition",
+                    description: "Identifying everyday objects, their distances, and relevance to provide contextual understanding of surroundings."
+                  },
+                  {
+                    icon: <FaHandHoldingHeart className="text-blue-500" size={24} />,
+                    title: "Daily Living Assistance",
+                    description: "Reading labels, identifying products, and helping with everyday tasks like grocery shopping or finding personal items."
+                  },
+                  {
+                    icon: <FaHandshake className="text-blue-500" size={24} />,
+                    title: "Social Interaction",
+                    description: "Recognizing faces, expressions, and social cues to enhance interpersonal communication for visually impaired users."
+                  },
+                  {
+                    icon: <FaUsers className="text-blue-500" size={24} />,
+                    title: "Community Integration",
+                    description: "Supporting independent participation in community activities and public spaces with reliable spatial awareness."
+                  }
+                ].map((useCase, index) => (
+                  <motion.div 
+                    key={index}
+                    className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <div className="bg-blue-50 dark:bg-blue-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                      {useCase.icon}
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{useCase.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-300">{useCase.description}</p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
