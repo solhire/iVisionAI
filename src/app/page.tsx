@@ -16,6 +16,16 @@ import AccessibilityPanel from '@/components/AccessibilityPanel';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import CookieConsent from '@/components/CookieConsent';
 import PhoneSlider from '@/components/PhoneSlider';
+import { Metadata } from 'next';
+import HeroSection from '@/components/HeroSection';
+import FeaturesSection from '@/components/FeaturesSection';
+import UseCasesSection from '@/components/UseCasesSection';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export const metadata: Metadata = {
+  title: 'iVision AI - Advanced Vision Technology',
+  description: 'Enhancing everyday life with AI vision technology. Join our beta program today.',
+};
 
 // Array of taglines to rotate through
 const taglines = [
@@ -88,50 +98,34 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
   const [isOpen, setIsOpen] = useState(false);
   
   return (
-    <div style={{
-      borderBottom: '1px solid #E5E7EB',
-      marginBottom: '1rem',
-      paddingBottom: '1rem'
-    }}>
+    <div className="border-b border-gray-200 dark:border-gray-700 mb-4 pb-4">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        style={{
-          display: 'flex',
-          width: '100%',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '1rem',
-          backgroundColor: 'white',
-          border: 'none',
-          borderRadius: '0.5rem',
-          textAlign: 'left',
-          fontWeight: '600',
-          fontSize: '1.1rem',
-          color: '#1F2937',
-          cursor: 'pointer',
-          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.05)'
-        }}
+        className="flex w-full justify-between items-center p-4 bg-white dark:bg-gray-800 rounded-lg text-left font-semibold text-lg text-gray-800 dark:text-white cursor-pointer shadow-sm hover:shadow-md transition-all duration-300"
         aria-expanded={isOpen}
       >
         {question}
-        {isOpen ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <FaChevronDown size={16} className="text-blue-500" />
+        </motion.div>
       </button>
       
-      {isOpen && (
-        <div 
-          style={{
-            padding: '1rem 1.5rem',
-            fontSize: '1rem',
-            lineHeight: '1.6',
-            color: '#4B5563',
-            backgroundColor: 'rgba(240, 244, 255, 0.5)',
-            borderRadius: '0 0 0.5rem 0.5rem',
-            marginTop: '0.5rem'
-          }}
-        >
-          {answer}
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="p-4 mt-2 text-base leading-relaxed text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-900/50 rounded-lg"
+          >
+            {answer}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
@@ -154,1871 +148,634 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ 
-      position: 'relative', 
-      width: '100%', 
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-    }}>
-      <GridBackground />
-      
-      <Header />
-      
-      <main style={{ flex: 1 }}>
-        {/* Hero Section */}
-        <section style={{ 
-          padding: '4rem 2rem', 
-          display: 'flex', 
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          minHeight: '80vh',
-          position: 'relative'
-        }}>
-          <h1 style={{ 
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            fontWeight: 'bold',
-            marginBottom: '1.5rem',
-            color: '#1F2937'
-          }}>
-            Camera-to-Speech AI for
-            <br />
-            <span style={{ color: '#3949AB' }}>Blind Users</span>
-          </h1>
-          
-          <div style={{ 
-            height: '80px', 
-            overflow: 'hidden',
-            marginBottom: '2rem',
-            position: 'relative'
-          }}>
-            <p style={{ 
-              fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-              position: 'absolute',
-              width: '100%',
-              opacity: isTransitioning ? 0 : 1,
-              transform: `translateY(${isTransitioning ? '20px' : '0'})`,
-              transition: 'opacity 0.5s ease, transform 0.5s ease',
-              color: '#4B5563',
-              maxWidth: '800px'
-            }}>
-              {taglines[taglineIndex]}
-            </p>
-          </div>
-          
-          <div style={{ 
-            display: 'flex', 
-            gap: '1rem',
-            marginBottom: '3rem',
-            flexWrap: 'wrap',
-            justifyContent: 'center'
-          }}>
-            <Link 
-              href="/download" 
-              style={{
-                backgroundColor: '#3949AB',
-                color: 'white',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '0.5rem',
-                fontWeight: 'bold',
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem'
+    <div className="overflow-hidden">
+      {/* Hero Section with Gradient Background */}
+      <motion.section 
+        className="relative py-20 md:py-32 overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-indigo-950">
+          <div className="absolute inset-0">
+            <motion.div 
+              className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-br from-blue-300/20 to-indigo-300/20 dark:from-blue-500/10 dark:to-indigo-500/10 rounded-full"
+              initial={{ x: 100, y: -100 }}
+              animate={{ 
+                x: [100, 120, 100], 
+                y: [-100, -80, -100],
               }}
-            >
-              Learn More
-            </Link>
-            <Link 
-              href="/about" 
-              style={{
-                backgroundColor: 'white',
-                color: '#4B5563',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '0.5rem',
-                fontWeight: 'bold',
-                textDecoration: 'none',
-                border: '1px solid #E5E7EB'
+              transition={{ 
+                duration: 15, 
+                repeat: Infinity, 
+                repeatType: "reverse",
+                ease: "easeInOut"
               }}
-            >
-              About Us
-            </Link>
-          </div>
-          
-          {/* Non-Profit Banner */}
-          <div style={{
-            backgroundColor: 'rgba(57, 73, 171, 0.1)', 
-            padding: '0.75rem 1.5rem',
-            borderRadius: '0.5rem',
-            marginBottom: '3rem',
-            maxWidth: '700px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.75rem',
-            flexWrap: 'wrap'
-          }}>
-            <span style={{ 
-              fontWeight: '500',
-              color: '#3949AB',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem' 
-            }}>
-              <FaHandHoldingHeart size={18} /> Non-profit organization
-            </span>
-            <span style={{ color: '#4B5563' }}>
-              Help us make this technology accessible to all
-            </span>
-            <Link 
-              href="/donate" 
-              style={{
-                backgroundColor: '#3949AB',
-                color: 'white',
-                padding: '0.375rem 0.75rem',
-                borderRadius: '0.375rem',
-                fontWeight: 'bold',
-                textDecoration: 'none',
-                fontSize: '0.875rem',
-                whiteSpace: 'nowrap'
+              style={{ filter: "blur(80px)" }}
+            />
+            <motion.div 
+              className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-purple-300/20 to-blue-300/20 dark:from-purple-500/10 dark:to-blue-500/10 rounded-full"
+              initial={{ x: -100, y: 100 }}
+              animate={{ 
+                x: [-100, -80, -100], 
+                y: [100, 80, 100],
               }}
-            >
-              Support our mission
-            </Link>
+              transition={{ 
+                duration: 12, 
+                repeat: Infinity, 
+                repeatType: "reverse",
+                ease: "easeInOut"
+              }}
+              style={{ filter: "blur(70px)" }}
+            />
+            <motion.div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-indigo-300/20 to-purple-300/20 dark:from-indigo-500/10 dark:to-purple-500/10 rounded-full"
+              animate={{ 
+                scale: [1, 1.05, 1],
+              }}
+              transition={{ 
+                duration: 8, 
+                repeat: Infinity, 
+                repeatType: "reverse",
+                ease: "easeInOut"
+              }}
+              style={{ filter: "blur(60px)" }}
+            />
           </div>
-          
-          {/* Enhanced Hero Visual with Phone Image */}
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: '1100px',
-            margin: '2rem auto 4rem',
-            display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '2rem'
-          }}>
-            {/* Phone Image */}
-            <div style={{
-              flex: '0 0 auto',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative'
-            }}>
-              <div style={{
-                position: 'absolute',
-                zIndex: -1,
-                top: '-2rem',
-                left: '-3rem',
-                width: '16rem',
-                height: '16rem',
-                background: 'radial-gradient(circle, rgba(57, 73, 171, 0.15) 0%, rgba(57, 73, 171, 0) 70%)',
-                borderRadius: '50%',
-                filter: 'blur(30px)'
-              }}></div>
-              
-              <div style={{
-                position: 'absolute',
-                zIndex: -1,
-                bottom: '-2.5rem',
-                right: '-3.5rem',
-                width: '20rem',
-                height: '20rem',
-                background: 'radial-gradient(circle, rgba(57, 73, 171, 0.2) 0%, rgba(57, 73, 171, 0) 70%)',
-                borderRadius: '50%',
-                filter: 'blur(30px)'
-              }}></div>
-              
-              <PhoneSlider />
-            </div>
-            
-            {/* Description */}
-            <div style={{
-              flex: '1 1 500px',
-              textAlign: 'left',
-              padding: '2rem'
-            }}>
-              <h2 style={{ 
-                fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
-                fontWeight: 'bold',
-                marginBottom: '1rem',
-                color: '#1F2937',
-                position: 'relative',
-                display: 'inline-block'
-              }}>
-                Revolutionary AI for Blind Users
-              </h2>
-              
-              <p style={{ 
-                fontSize: '1.1rem',
-                color: '#4B5563',
-                marginBottom: '2rem',
-                lineHeight: '1.7'
-              }}>
-                iVision AI instantly identifies objects, measures distances, and delivers natural
-                voice descriptions to help blind users navigate their surroundings with confidence.
-              </p>
-              
-              <div style={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem',
-                marginBottom: '2rem'
-              }}>
-                <div style={{
-                  backgroundColor: 'white',
-                  borderRadius: '0.5rem',
-                  padding: '1rem 1.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
-                }}>
-                  <div style={{ 
-                    backgroundColor: '#F0F4FF',
-                    borderRadius: '50%',
-                    width: '2.5rem',
-                    height: '2.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#3949AB'
-                  }}>
-                    <FaSearchLocation size={18} />
-                  </div>
-                  <span style={{ fontWeight: '500' }}>Real-time object detection</span>
-                </div>
-                
-                <div style={{
-                  backgroundColor: 'white',
-                  borderRadius: '0.5rem',
-                  padding: '1rem 1.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
-                }}>
-                  <div style={{ 
-                    backgroundColor: '#F0F4FF',
-                    borderRadius: '50%',
-                    width: '2.5rem',
-                    height: '2.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#3949AB'
-                  }}>
-                    <FaLanguage size={18} />
-                  </div>
-                  <span style={{ fontWeight: '500' }}>Natural speech descriptions</span>
-                </div>
-                
-                <div style={{
-                  backgroundColor: 'white',
-                  borderRadius: '0.5rem',
-                  padding: '1rem 1.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
-                }}>
-                  <div style={{ 
-                    backgroundColor: '#F0F4FF',
-                    borderRadius: '50%',
-                    width: '2.5rem',
-                    height: '2.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#3949AB'
-                  }}>
-                    <FaMicrochip size={18} />
-                  </div>
-                  <span style={{ fontWeight: '500' }}>Offline functionality</span>
-                </div>
-              </div>
-              
-              <div style={{ display: 'flex' }}>
-                <Link 
-                  href="/download" 
-                  style={{
-                    backgroundColor: '#3949AB',
-                    color: 'white',
-                    padding: '0.75rem 1.5rem',
-                    borderRadius: '0.5rem',
-                    fontWeight: 'bold',
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    boxShadow: '0 4px 12px rgba(57, 73, 171, 0.15)',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(57, 73, 171, 0.2)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(57, 73, 171, 0.15)';
-                  }}
-                >
-                  Download App <FaArrowRight size={14} />
-                </Link>
-              </div>
-            </div>
-          </div>
-          
-          <EndorsementLogos />
-        </section>
-
-        {/* Technology Overview Section */}
-        <section style={{ 
-          padding: '6rem 2rem', 
-          backgroundColor: '#F9FAFB',
-          textAlign: 'center'
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h2 style={{ 
-              fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              color: '#1F2937',
-              position: 'relative',
-              display: 'inline-block'
-            }}>
-              Technology Overview
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '80px',
-                height: '3px',
-                backgroundColor: '#3949AB',
-                borderRadius: '1.5px'
-              }} />
-            </h2>
-            
-            <p style={{ 
-              fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
-              color: '#4B5563',
-              maxWidth: '800px',
-              margin: '2rem auto 4rem',
-              lineHeight: '1.7'
-            }}>
-              At iVision AI, we've developed groundbreaking technology that transforms visual information into 
-              helpful audio descriptions. Our system combines advanced AI with spatial computing for unprecedented results.
-            </p>
-            
-            {/* Technology Highlights Grid */}
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '2rem',
-              marginBottom: '5rem'
-            }}>
-              {technologyHighlights.map((item, index) => (
-                <div key={index} style={{ 
-                  backgroundColor: 'white',
-                  borderRadius: '1rem',
-                  padding: '2.5rem 2rem',
-                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  transition: 'transform 0.3s ease',
-                  cursor: 'pointer',
-                  height: '100%',
-                  transform: 'translateY(0)',
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-10px)';
-                  e.currentTarget.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.1)';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.05)';
-                }}
-                >
-                  <div style={{ 
-                    backgroundColor: '#F0F4FF',
-                    borderRadius: '50%',
-                    width: '4.5rem',
-                    height: '4.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.75rem',
-                    color: '#3949AB',
-                    boxShadow: '0 5px 15px rgba(57, 73, 171, 0.15)'
-                  }}>
-                    {item.icon}
         </div>
-                  
-                  <h3 style={{ 
-                    fontSize: '1.35rem',
-                    fontWeight: 'bold',
-                    color: '#1F2937',
-                    marginBottom: '0.75rem',
-                  }}>
-                    {item.title}
-                  </h3>
-                  
-                  <p style={{ 
-                    fontSize: '0.9rem',
-                    color: '#6B7280',
-                    fontWeight: '500',
-                    marginBottom: '1.25rem',
-                  }}>
-                    {item.subtitle}
-                  </p>
-                  
-                  <p style={{ 
-                    fontSize: '1rem',
-                    color: '#4B5563',
-                    lineHeight: '1.6',
-                    flex: '1',
-                  }}>
-                    {item.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-            
-            {/* Video Showcase Section */}
-            <div style={{ 
-              backgroundColor: 'white',
-              borderRadius: '1.5rem',
-              padding: '3.5rem',
-              boxShadow: '0 15px 30px rgba(0, 0, 0, 0.05)',
-              marginBottom: '4rem',
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
-              <h3 style={{ 
-                fontSize: '1.75rem',
-                fontWeight: 'bold',
-                color: '#1F2937',
-                marginBottom: '2rem',
-                position: 'relative',
-                display: 'inline-block'
-              }}>
-                See iVision AI in Action
-                <div style={{
-                  position: 'absolute',
-                  bottom: '-10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '60px',
-                  height: '3px',
-                  backgroundColor: '#3949AB',
-                  borderRadius: '1.5px'
-                }} />
-              </h3>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+            {/* Text Content */}
+            <motion.div 
+              className="lg:w-1/2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+            >
+              <motion.div 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100/80 dark:bg-blue-900/30 backdrop-blur-sm text-blue-600 dark:text-blue-300 rounded-full text-sm font-medium mb-6 border border-blue-200/50 dark:border-blue-800/50 shadow-sm"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <div className="w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse"></div>
+                Currently in Beta
+              </motion.div>
               
-              <p style={{ 
-                fontSize: '1.1rem',
-                color: '#4B5563',
-                maxWidth: '800px',
-                margin: '0 auto 2.5rem',
-                lineHeight: '1.7'
-              }}>
-                Watch a real-world demonstration of our technology helping blind users navigate their environment with confidence
-              </p>
+              <motion.h1 
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-400 dark:to-indigo-300"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                Transforming Vision with Artificial Intelligence
+              </motion.h1>
               
-              <div style={{
-                maxWidth: '800px',
-                margin: '0 auto',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
-                borderRadius: '1rem',
-                overflow: 'hidden',
-                position: 'relative'
-              }}>
-                <video 
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  style={{
-                    width: '100%',
-                    display: 'block',
-                    borderRadius: '1rem'
-                  }}
+              <motion.div 
+                className="relative h-16 mb-8 overflow-hidden"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={taglineIndex}
+                    className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl absolute"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {taglines[taglineIndex]}
+                  </motion.p>
+                </AnimatePresence>
+              </motion.div>
+              
+              <motion.div 
+                className="flex flex-wrap gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                <Link href="/signup" 
+                  className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-500 dark:to-indigo-600 text-white font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 dark:hover:shadow-blue-500/20 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center gap-2 relative overflow-hidden"
                 >
-                  <source src="/example.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-                <div style={{
-                  position: 'absolute',
-                  bottom: '0',
-                  left: '0',
-                  right: '0',
-                  backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                  color: 'white',
-                  padding: '0.75rem 1rem',
-                  fontSize: '0.9rem',
-                  textAlign: 'center',
-                  borderRadius: '0 0 1rem 1rem'
-                }}>
-                  <span style={{ fontWeight: 'bold' }}>YOLOv9-based technology</span> detecting objects and calculating distances in real-time
-                </div>
-              </div>
-            </div>
+                  <span className="relative z-10">Join the Beta</span> 
+                  <motion.div
+                    className="relative z-10"
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <FaArrowRight size={14} />
+                  </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </Link>
+                
+                <Link href="/demo" 
+                  className="group px-8 py-4 border-2 border-blue-500 dark:border-blue-400 text-blue-600 dark:text-blue-300 font-bold rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 transform transition-all duration-300 hover:scale-105 hover:border-blue-600 dark:hover:border-blue-300 flex items-center justify-center relative overflow-hidden"
+                >
+                  <span className="relative z-10">View Demo</span>
+                  <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </Link>
+              </motion.div>
+            </motion.div>
             
-            {/* Two-Column Approach Section */}
-            <div style={{ 
-              backgroundColor: 'white',
-              borderRadius: '1.5rem',
-              padding: '3.5rem',
-              boxShadow: '0 15px 30px rgba(0, 0, 0, 0.05)',
-              marginBottom: '4rem',
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
-              <h3 style={{ 
-                fontSize: '1.75rem',
-                fontWeight: 'bold',
-                color: '#1F2937',
-                marginBottom: '2.5rem',
-                textAlign: 'center',
-                position: 'relative',
-                display: 'inline-block'
-              }}>
-                Our Dual-Processing Approach
-                <div style={{
-                  position: 'absolute',
-                  bottom: '-10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '60px',
-                  height: '3px',
-                  backgroundColor: '#3949AB',
-                  borderRadius: '1.5px'
-                }} />
-              </h3>
-              
-              <div style={{ 
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '3rem',
-                marginTop: '2rem'
-              }}>
-                {/* Column 1: Visual Processing */}
-                <div style={{
-                  padding: '2rem',
-                  borderRadius: '1rem',
-                  border: '1px solid rgba(57, 73, 171, 0.1)',
-                  backgroundColor: '#F9FAFB',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  height: '100%'
-                }}>
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '5px',
-                    background: 'linear-gradient(to right, #3949AB, #5C6BC0)'
-                  }} />
-                  
-                  <h4 style={{
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                    color: '#1F2937',
-                    marginBottom: '1.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem'
-                  }}>
-                    <FaSearchLocation size={22} style={{ color: '#3949AB' }} />
-                    YOLO-Based Object Detection
-                  </h4>
-                  
-                  <p style={{
-                    color: '#4B5563',
-                    lineHeight: '1.7',
-                    fontSize: '1.05rem',
-                    marginBottom: '2rem'
-                  }}>
-                    We've implemented and optimized the YOLO (You Only Look Once) framework, renowned for its speed and accuracy 
-                    in real-time object detection. Our modified version identifies over 5,000 objects in milliseconds while 
-                    calculating precise distances.
-                  </p>
-                  
-                  <div style={{
-                    backgroundColor: 'rgba(57, 73, 171, 0.05)',
-                    padding: '1.25rem',
-                    borderRadius: '0.75rem',
-                    marginBottom: '1.5rem'
-                  }}>
-                    <p style={{
-                      fontWeight: '600',
-                      fontSize: '0.95rem',
-                      color: '#3949AB',
-                      marginBottom: '0.75rem'
-                    }}>
-                      KEY METRICS
-                    </p>
-                    <p style={{
-                      color: '#4B5563',
-                      fontSize: '1.05rem'
-                    }}>
-                      94.7% detection accuracy with only 76ms processing time per frame
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Column 2: Audio Processing */}
-                <div style={{
-                  padding: '2rem',
-                  borderRadius: '1rem',
-                  border: '1px solid rgba(57, 73, 171, 0.1)',
-                  backgroundColor: '#F9FAFB',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  height: '100%'
-                }}>
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '5px',
-                    background: 'linear-gradient(to right, #3949AB, #5C6BC0)'
-                  }} />
-                  
-                  <h4 style={{
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                    color: '#1F2937',
-                    marginBottom: '1.5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem'
-                  }}>
-                    <FaLanguage size={22} style={{ color: '#3949AB' }} />
-                    Proprietary Speech Synthesis
-                  </h4>
-                  
-                  <p style={{
-                    color: '#4B5563',
-                    lineHeight: '1.7',
-                    fontSize: '1.05rem',
-                    marginBottom: '2rem'
-                  }}>
-                    Our custom-built audio AI transforms visual data into natural, conversational speech. 
-                    Unlike generic text-to-speech systems, our technology prioritizes spatial information 
-                    and adapts to environmental context.
-                  </p>
-                  
-                  <div style={{
-                    backgroundColor: 'rgba(57, 73, 171, 0.05)',
-                    padding: '1.25rem',
-                    borderRadius: '0.75rem',
-                    marginBottom: '1.5rem'
-                  }}>
-                    <p style={{
-                      fontWeight: '600',
-                      fontSize: '0.95rem',
-                      color: '#3949AB',
-                      marginBottom: '0.75rem'
-                    }}>
-                      KEY FEATURES
-                    </p>
-                    <p style={{
-                      color: '#4B5563',
-                      fontSize: '1.05rem'
-                    }}>
-                      Adjustable speech patterns, 14 language options, and distance-priority algorithms that focus on what matters most
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <p style={{
-                textAlign: 'center',
-                fontSize: '1.15rem',
-                fontWeight: '500',
-                color: '#1F2937',
-                maxWidth: '800px',
-                margin: '3rem auto 0',
-                padding: '1.5rem',
-                borderRadius: '0.75rem',
-                backgroundColor: 'rgba(57, 73, 171, 0.05)'
-              }}>
-                This seamless integration of vision and voice creates the world's first truly comprehensive spatial awareness system for blind users.
-              </p>
-            </div>
-            
-            {/* How It Works Section */}
-            <div style={{ 
-              backgroundColor: 'white',
-              borderRadius: '1.5rem',
-              padding: '3.5rem',
-              boxShadow: '0 15px 30px rgba(0, 0, 0, 0.05)',
-              marginBottom: '4rem',
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
-              {/* Background pattern */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundImage: 'radial-gradient(circle, rgba(63, 73, 171, 0.05) 1px, transparent 1px)',
-                backgroundSize: '20px 20px',
-                opacity: 0.5,
-                pointerEvents: 'none'
-              }} />
-              
-              <h3 style={{ 
-                fontSize: '1.75rem',
-                fontWeight: 'bold',
-                color: '#1F2937',
-                marginBottom: '3rem',
-                position: 'relative',
-                display: 'inline-block'
-              }}>
-                How It Works
-                <div style={{
-                  position: 'absolute',
-                  bottom: '-10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '60px',
-                  height: '3px',
-                  backgroundColor: '#3949AB',
-                  borderRadius: '1.5px'
-                }} />
-              </h3>
-              
-              <div style={{ 
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                gap: '3rem',
-                position: 'relative',
-                zIndex: 2
-              }}>
-                <div style={{ 
-                  flex: '1 1 220px',
-                  maxWidth: '250px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center'
-                }}>
-                  <div style={{ 
-                    backgroundColor: '#F0F4FF',
-                    borderRadius: '50%',
-                    width: '5rem',
-                    height: '5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.5rem',
-                    color: '#3949AB',
-                    position: 'relative',
-                    boxShadow: '0 8px 20px rgba(57, 73, 171, 0.15)'
-                  }}>
-                    <FaMobileAlt size={28} />
-                    <div style={{ 
-                      position: 'absolute',
-                      top: '-5px',
-                      right: '-5px',
-                      backgroundColor: '#3949AB',
-                      color: 'white',
-                      width: '2rem',
-                      height: '2rem',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '0.875rem',
-                      fontWeight: 'bold',
-                      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)'
-                    }}>1</div>
-                  </div>
-                  <p style={{ 
-                    textAlign: 'center', 
-                    color: '#4B5563',
-                    fontSize: '1.1rem',
-                    fontWeight: '500',
-                    maxWidth: '200px',
-                    lineHeight: '1.5'
-                  }}>
-                    Smartphone camera captures the environment
-                  </p>
-                </div>
-                
-                {/* Connector line */}
-                <div style={{
-                  alignSelf: 'center',
-                  width: '60px',
-                  height: '2px',
-                  backgroundColor: 'rgba(57, 73, 171, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <div style={{
-                    width: '8px',
-                    height: '8px',
-                    borderRadius: '50%',
-                    backgroundColor: '#3949AB'
-                  }} />
-                </div>
-                
-                <div style={{ 
-                  flex: '1 1 220px',
-                  maxWidth: '250px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center'
-                }}>
-                  <div style={{ 
-                    backgroundColor: '#F0F4FF',
-                    borderRadius: '50%',
-                    width: '5rem',
-                    height: '5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.5rem',
-                    color: '#3949AB',
-                    position: 'relative',
-                    boxShadow: '0 8px 20px rgba(57, 73, 171, 0.15)'
-                  }}>
-                    <FaSearchLocation size={28} />
-                    <div style={{ 
-                      position: 'absolute',
-                      top: '-5px',
-                      right: '-5px',
-                      backgroundColor: '#3949AB',
-                      color: 'white',
-                      width: '2rem',
-                      height: '2rem',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '0.875rem',
-                      fontWeight: 'bold',
-                      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)'
-                    }}>2</div>
-                  </div>
-                  <p style={{ 
-                    textAlign: 'center', 
-                    color: '#4B5563',
-                    fontSize: '1.1rem',
-                    fontWeight: '500',
-                    maxWidth: '200px',
-                    lineHeight: '1.5'
-                  }}>
-                    AI identifies objects and measures distances
-                  </p>
-                </div>
-                
-                {/* Connector line */}
-                <div style={{
-                  alignSelf: 'center',
-                  width: '60px',
-                  height: '2px',
-                  backgroundColor: 'rgba(57, 73, 171, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <div style={{
-                    width: '8px',
-                    height: '8px',
-                    borderRadius: '50%',
-                    backgroundColor: '#3949AB'
-                  }} />
-                </div>
-                
-                <div style={{ 
-                  flex: '1 1 220px',
-                  maxWidth: '250px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center'
-                }}>
-                  <div style={{ 
-                    backgroundColor: '#F0F4FF',
-                    borderRadius: '50%',
-                    width: '5rem',
-                    height: '5rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.5rem',
-                    color: '#3949AB',
-                    position: 'relative',
-                    boxShadow: '0 8px 20px rgba(57, 73, 171, 0.15)'
-                  }}>
-                    <FaLanguage size={28} />
-                    <div style={{ 
-                      position: 'absolute',
-                      top: '-5px',
-                      right: '-5px',
-                      backgroundColor: '#3949AB',
-                      color: 'white',
-                      width: '2rem',
-                      height: '2rem',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '0.875rem',
-                      fontWeight: 'bold',
-                      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)'
-                    }}>3</div>
-                  </div>
-                  <p style={{ 
-                    textAlign: 'center', 
-                    color: '#4B5563',
-                    fontSize: '1.1rem',
-                    fontWeight: '500',
-                    maxWidth: '220px',
-                    lineHeight: '1.5'
-                  }}>
-                    Natural language descriptions generated in milliseconds
-                  </p>
-                </div>
-              </div>
+            {/* Phone Slider */}
+            <motion.div 
+              className="lg:w-1/2 flex justify-center"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: 0.5,
+                type: "spring",
+                stiffness: 100
+              }}
+            >
+              <PhoneSlider />
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+      
+      {/* Endorsement Logos */}
+      <motion.div 
+        className="relative py-10 bg-white dark:bg-gray-900 border-t border-b border-gray-100 dark:border-gray-800"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+      >
+        <div className="container mx-auto px-4">
+          <EndorsementLogos />
+        </div>
+      </motion.div>
+      
+      {/* Beta Status Counter */}
+      <motion.section 
+        className="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="relative">
+            <div className="absolute inset-0 bg-blue-50 dark:bg-blue-900/20 rounded-2xl transform rotate-1 scale-105"></div>
+            <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
+              <BetaStatusCounter />
             </div>
           </div>
-        </section>
-            
-        {/* Performance Metrics Section */}
-        <section style={{ 
-          padding: '6rem 2rem', 
-          textAlign: 'center',
-          background: 'linear-gradient(to bottom, #ffffff, #f5f7ff)'
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h2 style={{ 
-              fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              color: '#1F2937',
-              position: 'relative',
-              display: 'inline-block'
-            }}>
-              Performance Metrics
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '80px',
-                height: '3px',
-                backgroundColor: '#3949AB',
-                borderRadius: '1.5px'
-              }} />
+        </div>
+      </motion.section>
+      
+      {/* Technology Highlights Section */}
+      <motion.section 
+        className="py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-400 dark:to-indigo-300 inline-block">
+              Our Technology
             </h2>
-            
-            <p style={{ 
-              fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
-              color: '#4B5563',
-              maxWidth: '800px',
-              margin: '2rem auto 4rem',
-              lineHeight: '1.7'
-            }}>
-              Our technology has been rigorously tested to ensure reliability, accuracy, and usability
-              for blind users in real-world scenarios.
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Cutting-edge innovations working together to create a seamless experience
             </p>
-            
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '2rem',
-              marginBottom: '4rem'
-            }}>
-              {performanceHighlights.map((item, index) => (
-                <div key={index} style={{ 
-                  backgroundColor: 'white',
-                  borderRadius: '1rem',
-                  padding: '2.5rem',
-                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  border: '1px solid rgba(57, 73, 171, 0.1)'
-                }}>
-                  {/* Background accent */}
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    height: '6px',
-                    width: '100%',
-                    backgroundImage: 'linear-gradient(to right, #3949AB, #5C6BC0)',
-                    zIndex: 1
-                  }} />
-                  
-                  <div style={{ 
-                    fontSize: '3.5rem',
-                    fontWeight: 'bold',
-                    color: '#3949AB',
-                    marginBottom: '1rem',
-                    position: 'relative'
-                  }}>
-                    {item.metric}
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {technologyHighlights.map((tech, index) => (
+              <motion.div 
+                key={index}
+                className="relative group bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 dark:bg-blue-900/20 rounded-full -mr-16 -mt-16 transition-transform duration-300 group-hover:scale-110"></div>
+                
+                <div className="bg-blue-50 dark:bg-blue-900/30 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 relative">
+                  <div className="text-blue-600 dark:text-blue-400">
+                    {tech.icon}
                   </div>
-                  
-                  <h3 style={{ 
-                    fontSize: '1.25rem',
-                    fontWeight: 'bold',
-                    color: '#1F2937',
-                    marginBottom: '1rem'
-                  }}>
-                    {item.label}
-                  </h3>
-                  
-                  <p style={{ 
-                    color: '#4B5563',
-                    fontSize: '1rem',
-                    lineHeight: '1.6'
-                  }}>
-                    {item.description}
-                  </p>
                 </div>
-              ))}
-            </div>
-            
-            <div style={{
-              backgroundColor: 'rgba(57, 73, 171, 0.02)',
-              borderRadius: '1.5rem',
-              padding: '3.5rem',
-              textAlign: 'center',
-              border: '1px solid rgba(57, 73, 171, 0.1)',
-              boxShadow: '0 20px 40px rgba(57, 73, 171, 0.05)',
-              position: 'relative',
-              overflow: 'hidden'
-            }}>
-              {/* Background decorative elements */}
-              <div style={{
-                position: 'absolute',
-                top: '-50px',
-                right: '-50px',
-                width: '200px',
-                height: '200px',
-                borderRadius: '50%',
-                backgroundColor: 'rgba(57, 73, 171, 0.03)',
-                zIndex: 0
-              }} />
-              
-              <div style={{
-                position: 'absolute',
-                bottom: '-30px',
-                left: '-30px',
-                width: '150px',
-                height: '150px',
-                borderRadius: '50%',
-                backgroundColor: 'rgba(57, 73, 171, 0.03)',
-                zIndex: 0
-              }} />
-              
-              <div style={{ position: 'relative', zIndex: 1 }}>
-                <h3 style={{ 
-                  fontSize: '1.75rem',
-                  fontWeight: 'bold',
-                  color: '#1F2937',
-                  marginBottom: '1.5rem'
-                }}>
-                  Impact
-                </h3>
                 
-                <p style={{ 
-                  fontSize: '1.1rem',
-                  color: '#4B5563',
-                  maxWidth: '900px',
-                  margin: '0 auto 2.5rem',
-                  lineHeight: '1.7'
-                }}>
-                  Our camera-to-speech technology helps blind users navigate with unprecedented confidence 
-                  and independence, providing spatial information that was previously unavailable through 
-                  assistive technology.
-                </p>
-                
-                <Link 
-                  href="/research" 
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    color: '#3949AB',
-                    fontWeight: 'bold',
-                    textDecoration: 'none',
-                    fontSize: '1.1rem',
-                    padding: '0.75rem 1.5rem',
-                    backgroundColor: 'white',
-                    borderRadius: '0.5rem',
-                    boxShadow: '0 4px 12px rgba(57, 73, 171, 0.1)',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                    transform: 'translateY(0)'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 6px 18px rgba(57, 73, 171, 0.15)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(57, 73, 171, 0.1)';
+                <span className="text-blue-600 dark:text-blue-400 text-sm font-semibold mb-1 block">{tech.subtitle}</span>
+                <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{tech.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{tech.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+      
+      {/* Performance Metrics Section */}
+      <motion.section 
+        className="py-16 bg-blue-50 dark:bg-gray-800/50"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {performanceHighlights.map((item, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <motion.h3 
+                  className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2"
+                  initial={{ scale: 0.9 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ 
+                    duration: 0.8, 
+                    delay: 0.2 + index * 0.1,
+                    type: "spring",
+                    stiffness: 100
                   }}
                 >
-                  Learn more about our research <FaArrowRight size={14} />
-                </Link>
-              </div>
-            </div>
+                  {item.metric}
+                </motion.h3>
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{item.label}</h4>
+                <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
+              </motion.div>
+            ))}
           </div>
-        </section>
-
-        {/* Funding and Support Section */}
-        <section style={{
-          padding: '6rem 2rem',
-          textAlign: 'center',
-          backgroundColor: '#F0F4FF'
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h2 style={{ 
-              fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              color: '#1F2937',
-              position: 'relative',
-              display: 'inline-block'
-            }}>
-              Support Our Mission
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '80px',
-                height: '3px',
-                backgroundColor: '#3949AB',
-                borderRadius: '1.5px'
-              }} />
+        </div>
+      </motion.section>
+      
+      {/* Interactive Demo Section */}
+      <motion.section 
+        className="py-24 bg-white dark:bg-gray-900 overflow-hidden"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <motion.div 
+              className="lg:w-1/2"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <motion.span 
+                className="inline-block px-4 py-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 rounded-full text-sm font-medium mb-6"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                Interactive Experience
+              </motion.span>
+              
+              <motion.h2 
+                className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                Experience iVision AI in Action
+              </motion.h2>
+              
+              <motion.p 
+                className="text-lg text-gray-600 dark:text-gray-300 mb-8"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                Upload an image to see how our AI analyzes and describes the scene with detailed object recognition and spatial awareness.
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                <Link href="/demo" 
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg"
+                >
+                  Try Full Demo <FaArrowRight size={14} />
+                </Link>
+              </motion.div>
+            </motion.div>
+            
+            <motion.div 
+              className="lg:w-1/2 w-full"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl blur-sm"></div>
+                <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+                  <InteractiveDemo />
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+      
+      {/* Use Cases Section */}
+      <motion.section 
+        className="py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-400 dark:to-indigo-300 inline-block">
+              Real-World Applications
             </h2>
-            
-            <p style={{ 
-              fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
-              color: '#4B5563',
-              maxWidth: '800px',
-              margin: '2rem auto 4rem',
-              lineHeight: '1.7'
-            }}>
-              As a non-profit organization, we rely on the generosity of donors and partners to continue 
-              developing our technology and making it accessible to those who need it most.
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              See how iVision AI is transforming everyday experiences
             </p>
-            
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '2rem',
-              marginBottom: '3rem'
-            }}>
-              <div style={{ 
-                backgroundColor: 'white',
-                borderRadius: '1rem',
-                padding: '2.5rem 2rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                height: '100%'
-              }}>
-                <div style={{ 
-                  backgroundColor: '#F0F4FF',
-                  borderRadius: '50%',
-                  width: '4.5rem',
-                  height: '4.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.75rem',
-                  color: '#3949AB',
-                  boxShadow: '0 5px 15px rgba(57, 73, 171, 0.15)'
-                }}>
-                  <FaHandHoldingHeart size={28} />
-                </div>
-                
-                <h3 style={{ 
-                  fontSize: '1.35rem',
-                  fontWeight: 'bold',
-                  color: '#1F2937',
-                  marginBottom: '0.75rem',
-                }}>
-                  Donate
-                </h3>
-                
-                <p style={{ 
-                  fontSize: '1rem',
-                  color: '#4B5563',
-                  lineHeight: '1.6',
-                  marginBottom: '1.5rem',
-                  flex: '1'
-                }}>
-                  Your donation helps fund research, development, and distribution of our technology to blind users worldwide.
-                </p>
-                
-                <Link 
-                  href="/donate" 
-                  style={{
-                    backgroundColor: '#3949AB',
-                    color: 'white',
-                    padding: '0.75rem 1.5rem',
-                    borderRadius: '0.5rem',
-                    fontWeight: 'bold',
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}
-                >
-                  Donate Now
-                </Link>
-              </div>
-              
-              <div style={{ 
-                backgroundColor: 'white',
-                borderRadius: '1rem',
-                padding: '2.5rem 2rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                height: '100%'
-              }}>
-                <div style={{ 
-                  backgroundColor: '#F0F4FF',
-                  borderRadius: '50%',
-                  width: '4.5rem',
-                  height: '4.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.75rem',
-                  color: '#3949AB',
-                  boxShadow: '0 5px 15px rgba(57, 73, 171, 0.15)'
-                }}>
-                  <FaHandshake size={28} />
-                </div>
-                
-                <h3 style={{ 
-                  fontSize: '1.35rem',
-                  fontWeight: 'bold',
-                  color: '#1F2937',
-                  marginBottom: '0.75rem',
-                }}>
-                  Partner With Us
-                </h3>
-                
-                <p style={{ 
-                  fontSize: '1rem',
-                  color: '#4B5563',
-                  lineHeight: '1.6',
-                  marginBottom: '1.5rem',
-                  flex: '1'
-                }}>
-                  Become a corporate partner and help us expand our reach through funding, technology, or expertise.
-                </p>
-                
-                <Link 
-                  href="/contact" 
-                  style={{
-                    backgroundColor: '#F0F4FF',
-                    color: '#3949AB',
-                    padding: '0.75rem 1.5rem',
-                    borderRadius: '0.5rem',
-                    fontWeight: 'bold',
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    border: '1px solid rgba(57, 73, 171, 0.2)'
-                  }}
-                >
-                  Contact Us
-                </Link>
-              </div>
+          </motion.div>
+          
+          <div className="relative">
+            <div className="absolute -inset-2 bg-blue-50 dark:bg-blue-900/20 rounded-2xl blur-sm"></div>
+            <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 p-8">
+              <UseCasesSection />
             </div>
           </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section style={{ 
-          padding: '6rem 2rem', 
-          textAlign: 'center',
-          background: 'linear-gradient(to bottom, #ffffff, #F9FAFB)'
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h2 style={{ 
-              fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              color: '#1F2937',
-              position: 'relative',
-              display: 'inline-block'
-            }}>
+        </div>
+      </motion.section>
+      
+      {/* Testimonials Section */}
+      <motion.section 
+        className="py-24 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        {/* Decorative elements */}
+        <div className="absolute inset-0">
+          <motion.div 
+            className="absolute top-20 left-10 w-64 h-64 bg-blue-200/30 dark:bg-blue-500/10 rounded-full"
+            animate={{ 
+              y: [0, 15, 0],
+            }}
+            transition={{ 
+              duration: 8, 
+              repeat: Infinity, 
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+            style={{ filter: "blur(40px)" }}
+          />
+          <motion.div 
+            className="absolute bottom-20 right-10 w-80 h-80 bg-indigo-200/30 dark:bg-indigo-500/10 rounded-full"
+            animate={{ 
+              y: [0, -20, 0],
+            }}
+            transition={{ 
+              duration: 10, 
+              repeat: Infinity, 
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+            style={{ filter: "blur(50px)" }}
+          />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-400 dark:to-indigo-300 inline-block">
               User Experiences
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '80px',
-                height: '3px',
-                backgroundColor: '#3949AB',
-                borderRadius: '1.5px'
-              }} />
             </h2>
-            
-            <p style={{ 
-              fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
-              color: '#4B5563',
-              maxWidth: '800px',
-              margin: '2rem auto 4rem',
-              lineHeight: '1.7'
-            }}>
-              Discover how iVision AI is transforming the lives of blind users through innovative technology
-              that enhances independence and spatial awareness.
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Hear what our beta testers have to say about iVision AI
             </p>
-            
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '2.5rem',
-              marginBottom: '3rem'
-            }}>
-              {/* Testimonial 1 */}
-              <div style={{ 
-                backgroundColor: 'white',
-                borderRadius: '1rem',
-                padding: '2.5rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-                textAlign: 'left',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
-                {/* Accent border */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '4px',
-                  height: '100%',
-                  background: 'linear-gradient(to bottom, #3949AB, #5C6BC0)'
-                }}></div>
-                
-                {/* Quote symbol */}
-                <div style={{
-                  position: 'absolute',
-                  top: '20px',
-                  right: '20px',
-                  color: 'rgba(57, 73, 171, 0.1)',
-                  fontSize: '5rem',
-                  lineHeight: '1',
-                  fontFamily: 'serif'
-                }}>"</div>
-                
-                <div style={{ 
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  <p style={{ 
-                    fontSize: '1.1rem',
-                    lineHeight: '1.7',
-                    color: '#4B5563',
-                    marginBottom: '2rem',
-                    fontStyle: 'italic'
-                  }}>
-                    iVision AI has completely changed how I navigate my daily life. I can identify 
-                    objects, gauge distances, and feel more confident when exploring new environments.
-                  </p>
-                  
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}>
-                    <div style={{ 
-                      width: '50px',
-                      height: '50px',
-                      borderRadius: '50%',
-                      backgroundColor: '#F0F4FF',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#3949AB',
-                      fontWeight: 'bold',
-                      marginRight: '1rem'
-                    }}>
-                      MJ
-                    </div>
-                    <div>
-                      <p style={{ 
-                        fontWeight: 'bold',
-                        color: '#1F2937',
-                        margin: 0
-                      }}>
-                        Michael Johnson
-                      </p>
-                      <p style={{ 
-                        fontSize: '0.875rem',
-                        color: '#6B7280',
-                        margin: 0
-                      }}>
-                        iVision AI user for 8 months
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Testimonial 2 */}
-              <div style={{ 
-                backgroundColor: 'white',
-                borderRadius: '1rem',
-                padding: '2.5rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-                textAlign: 'left',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
-                {/* Accent border */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '4px',
-                  height: '100%',
-                  background: 'linear-gradient(to bottom, #3949AB, #5C6BC0)'
-                }}></div>
-                
-                {/* Quote symbol */}
-                <div style={{
-                  position: 'absolute',
-                  top: '20px',
-                  right: '20px',
-                  color: 'rgba(57, 73, 171, 0.1)',
-                  fontSize: '5rem',
-                  lineHeight: '1',
-                  fontFamily: 'serif'
-                }}>"</div>
-                
-                <div style={{ 
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  <p style={{ 
-                    fontSize: '1.1rem',
-                    lineHeight: '1.7',
-                    color: '#4B5563',
-                    marginBottom: '2rem',
-                    fontStyle: 'italic'
-                  }}>
-                    As an orientation and mobility specialist, I've seen firsthand how this technology 
-                    empowers my clients with unprecedented spatial awareness and independence.
-                  </p>
-                  
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}>
-                    <div style={{ 
-                      width: '50px',
-                      height: '50px',
-                      borderRadius: '50%',
-                      backgroundColor: '#F0F4FF',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#3949AB',
-                      fontWeight: 'bold',
-                      marginRight: '1rem'
-                    }}>
-                      SP
-                    </div>
-                    <div>
-                      <p style={{ 
-                        fontWeight: 'bold',
-                        color: '#1F2937',
-                        margin: 0
-                      }}>
-                        Sarah Parker, COMS
-                      </p>
-                      <p style={{ 
-                        fontSize: '0.875rem',
-                        color: '#6B7280',
-                        margin: 0
-                      }}>
-                        Mobility Specialist
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Testimonial 3 */}
-              <div style={{ 
-                backgroundColor: 'white',
-                borderRadius: '1rem',
-                padding: '2.5rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-                textAlign: 'left',
-                position: 'relative',
-                overflow: 'hidden'
-              }}>
-                {/* Accent border */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '4px',
-                  height: '100%',
-                  background: 'linear-gradient(to bottom, #3949AB, #5C6BC0)'
-                }}></div>
-                
-                {/* Quote symbol */}
-                <div style={{
-                  position: 'absolute',
-                  top: '20px',
-                  right: '20px',
-                  color: 'rgba(57, 73, 171, 0.1)',
-                  fontSize: '5rem',
-                  lineHeight: '1',
-                  fontFamily: 'serif'
-                }}>"</div>
-                
-                <div style={{ 
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  <p style={{ 
-                    fontSize: '1.1rem',
-                    lineHeight: '1.7',
-                    color: '#4B5563',
-                    marginBottom: '2rem',
-                    fontStyle: 'italic'
-                  }}>
-                    The most impressive aspect is how it adapts to my preferences. The more I use it,
-                    the better it gets at providing the information that matters most to me.
-                  </p>
-                  
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}>
-                    <div style={{ 
-                      width: '50px',
-                      height: '50px',
-                      borderRadius: '50%',
-                      backgroundColor: '#F0F4FF',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#3949AB',
-                      fontWeight: 'bold',
-                      marginRight: '1rem'
-                    }}>
-                      RL
-                    </div>
-                    <div>
-                      <p style={{ 
-                        fontWeight: 'bold',
-                        color: '#1F2937',
-                        margin: 0
-                      }}>
-                        Robert Lee
-                      </p>
-                      <p style={{ 
-                        fontSize: '0.875rem',
-                        color: '#6B7280',
-                        margin: 0
-                      }}>
-                        iVision AI user for 1 year
-                      </p>
-                    </div>
-                  </div>
-                </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-5xl mx-auto"
+          >
+            <div className="relative">
+              <div className="absolute -inset-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl"></div>
+              <div className="relative rounded-xl overflow-hidden">
+                <TestimonialCarousel />
               </div>
             </div>
-            
-            <Link 
-              href="/testimonials" 
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: '#3949AB',
-                fontWeight: 'bold',
-                textDecoration: 'none',
-                fontSize: '1.1rem',
-                padding: '0.75rem 1.5rem',
-                backgroundColor: 'white',
-                borderRadius: '0.5rem',
-                boxShadow: '0 4px 12px rgba(57, 73, 171, 0.1)',
-                border: '1px solid rgba(57, 73, 171, 0.1)'
-              }}
-            >
-              Read More Stories <FaArrowRight size={14} />
-            </Link>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section style={{ 
-          padding: '6rem 2rem', 
-          textAlign: 'center',
-          backgroundColor: '#F9FAFB'
-        }}>
-          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-            <h2 style={{ 
-              fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
-              fontWeight: 'bold',
-              marginBottom: '1rem',
-              color: '#1F2937',
-              position: 'relative',
-              display: 'inline-block'
-            }}>
+          </motion.div>
+        </div>
+      </motion.section>
+      
+      {/* News Section */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="relative"
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800"></div>
+        <div className="relative">
+          <NewsSection />
+        </div>
+      </motion.div>
+      
+      {/* FAQ Section */}
+      <motion.section 
+        className="py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-400 dark:to-indigo-300 inline-block">
               Frequently Asked Questions
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '80px',
-                height: '3px',
-                backgroundColor: '#3949AB',
-                borderRadius: '1.5px'
-              }} />
             </h2>
-            
-            <p style={{ 
-              fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
-              color: '#4B5563',
-              maxWidth: '800px',
-              margin: '2rem auto 4rem',
-              lineHeight: '1.7'
-            }}>
-              Get answers to common questions about iVision AI, our technology, and how it can help enhance
-              independence for blind users.
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Get answers to common questions about iVision AI
             </p>
-            
-            <div style={{ textAlign: 'left' }}>
-              <FAQItem 
-                question="How does iVision AI work?"
-                answer="iVision AI uses your smartphone's camera to capture the environment, processes the visual information through advanced AI models to detect objects and measure distances, and then converts this data into natural language descriptions delivered through speech. All processing happens on-device, ensuring privacy and offline functionality."
-              />
-              
-              <FAQItem 
-                question="Is iVision AI free to use?"
-                answer="Yes, iVision AI is completely free for all blind and visually impaired users. As a non-profit organization, we rely on donations, grants, and partnerships to fund our development and ensure the technology remains accessible to all who need it."
-              />
-              
-              <FAQItem 
-                question="Does it work in all lighting conditions?"
-                answer="iVision AI is designed to function in a wide range of lighting conditions, including low-light environments. However, extremely dark settings may reduce accuracy. The app will inform you when lighting conditions might affect performance and will continue to provide the best possible information based on available visual data."
-              />
-              
-              <FAQItem 
-                question="What languages are supported?"
-                answer="Currently, iVision AI supports English, Spanish, French, German, and Mandarin Chinese. We're actively working to add more languages and improve our natural language processing for existing ones. The app automatically detects your device's language settings."
-              />
-              
-              <FAQItem 
-                question="Do I need an internet connection to use the app?"
-                answer="No, iVision AI works completely offline. All processing happens on your device, which enhances privacy and allows you to use the app anywhere, even without cellular or WiFi connectivity."
-              />
-              
-              <FAQItem 
-                question="How accurate is the object detection?"
-                answer="Our latest models achieve over 95% accuracy for common objects in good lighting conditions. The app continuously improves through machine learning and regular updates. For critical navigation and safety decisions, we recommend using iVision AI as a complement to traditional mobility tools."
-              />
-              
-              <FAQItem 
-                question="How can I contribute to the project?"
-                answer="You can support iVision AI by donating, volunteering your skills, participating in user testing, or helping spread awareness. Visit our 'Support' page to learn more about how you can contribute to making this technology available to more blind users worldwide."
-              />
-            </div>
-            
-            <Link 
-              href="/faq" 
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: '#3949AB',
-                fontWeight: 'bold',
-                textDecoration: 'none',
-                fontSize: '1.1rem',
-                padding: '0.75rem 1.5rem',
-                backgroundColor: 'white',
-                borderRadius: '0.5rem',
-                boxShadow: '0 4px 12px rgba(57, 73, 171, 0.1)',
-                border: '1px solid rgba(57, 73, 171, 0.1)',
-                marginTop: '3rem'
-              }}
+          </motion.div>
+          
+          <div className="max-w-3xl mx-auto">
+            <FAQItem 
+              question="How accurate is the object detection?" 
+              answer="Our technology achieves a 94.7% accuracy rate for object detection across various environments and lighting conditions. This is achieved through our optimized YOLOv9-based framework and continuous model improvements from real-world usage data."
+            />
+            <FAQItem 
+              question="Does iVision AI work offline?" 
+              answer="Yes, iVision AI is designed to work entirely offline. All processing happens on your device, ensuring both privacy and functionality in areas with limited or no internet connectivity."
+            />
+            <FAQItem 
+              question="How precise is the spatial awareness feature?" 
+              answer="Our DepthSense™ Algorithm provides distance measurements accurate to within 5cm for nearby objects (up to 5 meters). For objects further away, accuracy may vary based on environmental conditions and the device's camera capabilities."
+            />
+            <FAQItem 
+              question="What languages are supported?" 
+              answer="iVision AI currently supports 14 languages for voice output, including English, Spanish, French, German, Italian, Portuguese, Japanese, Korean, Mandarin, Cantonese, Russian, Arabic, Hindi, and Dutch. We're continuously adding more languages."
+            />
+            <FAQItem 
+              question="What devices are compatible with iVision AI?" 
+              answer="iVision AI is compatible with iOS 14+ and Android 9+ devices. For optimal performance, we recommend devices with at least 4GB of RAM and cameras with a minimum of 12MP resolution."
+            />
+          </div>
+        </div>
+      </motion.section>
+      
+      {/* CTA Section */}
+      <motion.section 
+        className="py-20 relative overflow-hidden"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        {/* Background Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-800 dark:from-blue-700 dark:to-indigo-900"></div>
+        
+        {/* Animated Background Shapes */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div 
+            className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/20 rounded-full"
+            animate={{ 
+              x: [0, 20, 0], 
+              y: [0, -20, 0],
+            }}
+            transition={{ 
+              duration: 12, 
+              repeat: Infinity, 
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+            style={{ filter: "blur(80px)" }}
+          />
+          <motion.div 
+            className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/20 rounded-full"
+            animate={{ 
+              x: [0, -20, 0], 
+              y: [0, 20, 0],
+            }}
+            transition={{ 
+              duration: 10, 
+              repeat: Infinity, 
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+            style={{ filter: "blur(70px)" }}
+          />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <motion.div 
+              className="bg-white/10 backdrop-blur-md rounded-2xl p-12 border border-white/20 shadow-2xl"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
             >
-              View All FAQs <FaArrowRight size={14} />
-            </Link>
+              <div className="text-center">
+                <motion.h2 
+                  className="text-3xl md:text-4xl font-bold mb-6 text-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                >
+                  Ready to Experience the Future of AI Vision?
+                </motion.h2>
+                
+                <motion.p 
+                  className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  Join our beta program today and be among the first to experience the next generation of computer vision technology.
+                </motion.p>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="flex flex-wrap gap-4 justify-center"
+                >
+                  <Link href="/signup" 
+                    className="group px-8 py-4 bg-white text-blue-600 font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-white/25 focus:outline-none focus:ring-2 focus:ring-white flex items-center justify-center gap-2 relative overflow-hidden"
+                  >
+                    <span className="relative z-10">Join the Beta Program</span>
+                    <motion.div
+                      className="relative z-10"
+                      initial={{ x: 0 }}
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <FaArrowRight size={14} />
+                    </motion.div>
+                    <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </Link>
+                  
+                  <Link href="/contact" 
+                    className="group px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white flex items-center justify-center gap-2"
+                  >
+                    Contact Our Team
+                  </Link>
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
-        </section>
-
-        {/* Footer Section */}
-        <footer style={{
-          backgroundColor: '#1F2937',
-          color: 'white',
-          padding: '4rem 2rem 2rem',
-          textAlign: 'center'
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '3rem',
-              textAlign: 'left',
-              marginBottom: '3rem'
-            }}>
-              {/* Company Info */}
-              <div>
-                <h3 style={{ 
-                  fontSize: '1.25rem', 
-                  fontWeight: 'bold',
-                  marginBottom: '1.5rem',
-                  color: 'white'
-                }}>iVision AI</h3>
-                <div style={{
-                  display: 'flex',
-                  gap: '1rem',
-                  marginTop: '1rem'
-                }}>
-                  <a href="https://x.com/iVisionAI" target="_blank" rel="noopener noreferrer" style={{ 
-                    color: '#D1D5DB',
-                    transition: 'color 0.2s ease'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.color = 'white';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.color = '#D1D5DB';
-                  }}>
-                    <FaTwitter size={20} /> <span style={{ marginLeft: '0.25rem', fontSize: '0.9rem' }}>X</span>
-                  </a>
-                </div>
-              </div>
-              
-              {/* Quick Links */}
-              <div>
-                <h3 style={{ 
-                  fontSize: '1.25rem', 
-                  fontWeight: 'bold',
-                  marginBottom: '1.5rem',
-                  color: 'white'
-                }}>Quick Links</h3>
-                <ul style={{ 
-                  listStyle: 'none', 
-                  padding: 0, 
-                  margin: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.75rem'
-                }}>
-                  <li>
-                    <Link href="/about" style={{ 
-                      color: '#D1D5DB', 
-                      textDecoration: 'none',
-                      fontSize: '0.95rem'
-                    }}>About Us</Link>
-                  </li>
-                  <li>
-                    <Link href="/features" style={{ 
-                      color: '#D1D5DB', 
-                      textDecoration: 'none',
-                      fontSize: '0.95rem'
-                    }}>Features</Link>
-                  </li>
-                  <li>
-                    <Link href="/research" style={{ 
-                      color: '#D1D5DB', 
-                      textDecoration: 'none',
-                      fontSize: '0.95rem'
-                    }}>Research</Link>
-                  </li>
-                  <li>
-                    <Link href="/download" style={{ 
-                      color: '#D1D5DB', 
-                      textDecoration: 'none',
-                      fontSize: '0.95rem'
-                    }}>Download</Link>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Resources */}
-              <div>
-                <h3 style={{ 
-                  fontSize: '1.25rem', 
-                  fontWeight: 'bold',
-                  marginBottom: '1.5rem',
-                  color: 'white'
-                }}>Resources</h3>
-                <ul style={{ 
-                  listStyle: 'none', 
-                  padding: 0, 
-                  margin: 0,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.75rem'
-                }}>
-                  <li>
-                    <Link href="/faq" style={{ 
-                      color: '#D1D5DB', 
-                      textDecoration: 'none',
-                      fontSize: '0.95rem'
-                    }}>FAQ</Link>
-                  </li>
-                  <li>
-                    <Link href="/donate" style={{ 
-                      color: '#D1D5DB', 
-                      textDecoration: 'none',
-                      fontSize: '0.95rem'
-                    }}>Donate</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            
-            <div style={{
-              borderTop: '1px solid #374151',
-              paddingTop: '2rem',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '1rem'
-            }}>
-              <p style={{ fontSize: '0.875rem', color: '#9CA3AF' }}>
-                © {new Date().getFullYear()} iVision AI. All rights reserved.
-              </p>
-            </div>
-          </div>
-      </footer>
-      </main>
+        </div>
+      </motion.section>
     </div>
   );
 }
